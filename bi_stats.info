@@ -1,0 +1,8 @@
+name = BI Stats
+description = Changing the BI stats query so it groups by day of the week
+
+core = 7.x
+package = Drupal 7 Development
+
+files[] = bi_stats.module
+files[] = bi_stats.views.inc

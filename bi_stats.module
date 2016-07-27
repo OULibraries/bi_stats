@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * Implements hook_views_api().
+ */
+function bi_stats_views_api() {
+  return array(
+    'api' => 3.0
+  );
+}
+
+/**
+ * @param $query
+ *
+ * alter the query
+ */
+function bi_stats_query_alter(&$query) {
+  if (isset($query->alterMetaData)) {
+    if (isset($query->alterMetaData['view'])) {
+      //restrict this adding to only the the query with the instructor field
+      if ($query->alterMetaData['view']->query->fields['field_data_field_instructor_field_instructor_target_id']) {
+        dpm($query);
+
+        //Get a list of all 'group by' in the query
+        $fields =& $query->getGroupBy();
+        foreach (array_keys($fields) as $key) {
+          // Remove group by statements from generated query which were actually not set in view query.
+          if (!in_array($key, $query->alterMetaData['view']->query->groupby)) {
+            unset($fields[$key]);
+          }
+        }
+        //adding a groupby to coincide with the aggregate...this keeps like names together
+        //note: this field name has changed on me once before..check the query to
+        //make sure this is still the name if things stop working
+        $query->groupBy("field_data_field_instructor_field_instructor_target_id");
+      }
+    }
+  }
+}
