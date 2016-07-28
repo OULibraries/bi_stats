@@ -17,9 +17,8 @@ function bi_stats_views_api() {
 function bi_stats_query_alter(&$query) {
   if (isset($query->alterMetaData)) {
     if (isset($query->alterMetaData['view'])) {
-      //restrict this adding to only the the query with the instructor field
-      if ($query->alterMetaData['view']->query->fields['field_data_field_instructor_field_instructor_target_id']) {
-        dpm($query);
+      //restrict this adding to only the query with the instructor field
+      if (isset($query->alterMetaData['view']->query->fields['field_data_field_instructor_field_instructor_target_id'])) {
 
         //Get a list of all 'group by' in the query
         $fields =& $query->getGroupBy();
@@ -33,6 +32,13 @@ function bi_stats_query_alter(&$query) {
         //note: this field name has changed on me once before..check the query to
         //make sure this is still the name if things stop working
         $query->groupBy("field_data_field_instructor_field_instructor_target_id");
+      }
+      //add a where to the embedded block in the header
+      //had to add an extra column that serves no other purpose other than to
+      //identify the specific query...can't get tags to show
+      if (isset($query->alterMetaData['view']->query->fields['field_data_field_total_participants_node_entity_type'])) {
+        dpm('just here');
+        dpm($query);
       }
     }
   }
