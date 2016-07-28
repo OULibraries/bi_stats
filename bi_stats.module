@@ -33,13 +33,6 @@ function bi_stats_query_alter(&$query) {
         //make sure this is still the name if things stop working
         $query->groupBy("field_data_field_instructor_field_instructor_target_id");
       }
-      //add a where to the embedded block in the header
-      //had to add an extra column that serves no other purpose other than to
-      //identify the specific query...can't get tags to show
-      if (isset($query->alterMetaData['view']->query->fields['field_data_field_total_participants_node_entity_type'])) {
-        dpm('just here');
-        dpm($query);
-      }
     }
   }
 }
