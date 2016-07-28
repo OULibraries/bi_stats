@@ -17,9 +17,8 @@ function bi_stats_views_api() {
 function bi_stats_query_alter(&$query) {
   if (isset($query->alterMetaData)) {
     if (isset($query->alterMetaData['view'])) {
-      //restrict this adding to only the the query with the instructor field
-      if ($query->alterMetaData['view']->query->fields['field_data_field_instructor_field_instructor_target_id']) {
-        dpm($query);
+      //restrict this adding to only the query with the instructor field
+      if (isset($query->alterMetaData['view']->query->fields['field_data_field_instructor_field_instructor_target_id'])) {
 
         //Get a list of all 'group by' in the query
         $fields =& $query->getGroupBy();
